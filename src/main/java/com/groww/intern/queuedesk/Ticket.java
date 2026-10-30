@@ -125,7 +125,12 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Ticket {
+import java.util.Set; //Set stores unique elements.
+import java.util.HashSet; //HashSet is a collection that implements the Set interface.So, one implementation of Set.
+import java.util.Collections; //provides a read-only view of a collection. Collections.unmodifiableSet() returns an unmodifiable view of the specified set. Any attempt to modify the set through this view will result in an UnsupportedOperationException.
+
+//Build- T3 Req1.0: Ticket class is abstract because we don't want to create a generic ticket, we want to create specific types of tickets like BugTicket, FeatureRequestTicket, etc. An abstract class cannot be instantiated directly. It serves as a blueprint for other classes.
+public abstract class Ticket implements Comparable<Ticket>{ //Build-T4 Req 2: Comparable<Ticket> means the ticket class defines how two tickets should be compared for natural ordering.
     private static int nextId = 1; //shared by all tickets 
 
     private final int id;
@@ -135,6 +140,9 @@ public class Ticket {
     private Priority priority;
     private Status status;
     private final LocalDateTime createdAt;
+
+    private String assignee; //Build-T4 Req 1: Add a field to store the assignee of the ticket. This field is optional and can be null if the ticket is not assigned to anyone yet.
+    private final Set<String> tags = new HashSet<>(); //Build-T4 Req 1: Add a field to store the tags(are labels such as "urgent", "backend") associated with the ticket. This field is a set of strings, which means it can store multiple unique tags. We use HashSet to ensure that each tag is unique and to provide efficient operations for adding, removing, and checking for tags.
 
     //full constructor 
     /*can be called using Ticket t1 = new Ticket("Login issue", "Error 500", "Asha", Priority.HIGH); */
@@ -208,5 +216,97 @@ public class Ticket {
     @Override
     public String toString(){
         return "#" + id + " [" + priority + "/" + status + "]" + title + " (" + requester + ")";
+    }
+
+    //Build-T3 Req1.1: Add a abstract method to estimate the effort required to resolve the ticket.Each ticket type estimates it's effort differently, so we leave the implementation to the subclasses. This method will be implemented in the subclasses like BugTicket, FeatureRequestTicket, etc.
+    public abstract double estimateEffortHours();
+
+    //Build-T4 Req1: Add methods
+
+    //Getter: returns the assignee of the ticket. If the ticket is not assigned to anyone, it returns null.
+    public String getAssignee(){
+        return assignee;
+    }
+    
+    //Setter: assign the ticket to a specific person.
+    public void setAssignee(String assignee){
+        this.assignee = assignee;
+    }
+
+    //Getter: returns a read-only view of the tags.This prevents external code from modifying the internal set of tags directly, ensuring encapsulation.
+    public Set<String> getTags(){
+        return Collections.unmodifiableSet(tags);
+    }
+
+    /*Setter: add a tag to the ticket.
+    first replaces the existing tags with the provided set, we validate each tag through addTag() instead of directly assigning the incoming set, protecting the object's data..
+    */
+    public void setTags(Set<String> newTags){
+        this.tags.clear(); //remove the existing tags before adding the new ones.
+
+        if(newTags == null){
+            return; //if null is provided, leave the set empty.
+        }
+
+        //add each tag through addTag(), which validates the tag before adding it to the set.
+        for(String tag: newTags){ //takes each tag from the newTags set and passes it to the addTag() method for validation and addition to the internal tags set.
+            this.addTag(tag); //addTag() method checks if the tag is valid (not null or blank) before adding it to the internal tags set.
+            // Checks tag is not null, empty, or just spaces.Then removes extra spaces using trim() and adds it to the set. If valid, adds it to the tags set. If invalid, ignores it. 
+        }
+        /*If the incoming set contains " urgent ", addTag() stores it as "urgent". If it contains "   ", the method throws an exception. */
+    }
+        //Adder: adds one tag at a time. Set prevents duplicate tags, while validation prevents null, emty or whitespaces-only tags.
+    public void addTag(String tag){
+        if(tag == null || tag.isBlank()){ // If a tag is invalid, addTag() throws an IllegalArgumentException.
+            throw new IllegalArgumentException("Tag cannot be null or blank");
+        }
+        //removes leading and trailing spaces from the tag before adding it to the set. 
+        tags.add(tag.trim());
+    }
+
+    /*Build-T4 Req2: Defines the natural/default sorting order of tickets.
+    ■ Make Ticket implements Comparable<Ticket>: order by priority descending, then by
+    createdAt ascending for ties.
+    Means 1.Higher priority tickets comes first: CRITICAL → HIGH → MEDIUM → LOW. 
+    2.TIE, If priorities are equal, the older ticket (createdAt) comes first.*/
+    @Override
+    public int compareTo(Ticket other){ //the Comparable<Ticket> interface requires us to implement this method. 
+    /*Here, 
+    other= the second ticket being compared to the current ticket (this). 
+    this = the current ticket.
+    this.priority = priority of the current ticket (this).
+    other.priority = priority of the other ticket being compared (other).
+    this.createdAt = creation time of the current ticket (this).
+    other.createdAt = creation time of the other ticket being compared (other).
+    ordinal() = the numerical position of that priority in the enum.
+    enum Priority {
+    LOW, MEDIUM, HIGH, CRITICAL
+    }
+
+        //Compare priorities in descending order (CRITICAL → HIGH → MEDIUM → LOW).
+        Priority	ordinal()
+           LOW	     0
+           MEDIUM	 1 
+           HIGH	     2
+           CRITICAL	 3
+        Integer.compare(a, b): Is a shortcut for comparing two integers instead of writing if-else conditions manually. if(a>b) return 1; if(a<b) return -1; else return 0;{so negative if first number is smaller, zero if both numbers are equal and positive if first number is greater.}
+        return Integer.compare(a,b); both expresses the same comparison logic
+        how do we sort? Aesc order: Integer.compare(a,b) 
+                        Desc order: Integer.compare(b,a)
+        Now imagine:
+        - Current ticket (this) has LOW → 0
+        - Other ticket (other) has CRITICAL → 3
+        becomes: Integer.compare(3, 0); The result is positive because 3 > 0.
+        Why put other first? Because we want CRITICAL to come before LOW.
+        Reversing the arguments puts higher priorities first.*/
+        int priorityComparison = Integer.compare(other.priority.ordinal(), this.priority.ordinal());
+
+        //if priorities are differnt, return the comparison result.
+        if(priorityComparison != 0){
+            return priorityComparison;
+        }
+
+        //if priorities are equal, compare cration times ie createdAt in ascending order (older tickets first).
+        return this.createdAt.compareTo(other.createdAt);
     }
 }
