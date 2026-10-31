@@ -148,7 +148,7 @@ public abstract class Ticket implements Comparable<Ticket>{ //Build-T4 Req 2: Co
     /*can be called using Ticket t1 = new Ticket("Login issue", "Error 500", "Asha", Priority.HIGH); */
     public Ticket(String title, String description, String requester, Priority priority){
         this.id = nextId++;
-        this.title = Objects.requireNonNull(title, "Title"); //syntax: Objects.requireNonNull(variableToCheck, "Error message if it is null");
+        this.title = Objects.requireNonNull(title, "Title").trim(); //syntax: Objects.requireNonNull(variableToCheck, "Error message if it is null");
         this.description = description == null? "" : description.trim(); //description is optinal while title, requester and priority are treated as required fields, this uses a ternary operator which is short of if-else. If description is null, store an empty string "".Otherwise, store the description after trimming spaces.
         this.requester = Objects.requireNonNull(requester, "Requester").trim();
         this.priority = Objects.requireNonNull(priority, "Priority");
@@ -181,6 +181,25 @@ public abstract class Ticket implements Comparable<Ticket>{ //Build-T4 Req 2: Co
     public String getDescription(){
         return description;
     }
+    //Build-T5 Req6: Returns a shortened description for displaying on the triage board. If the description is longer than maxLength, it truncates it and appends "...". If it's shorter or equal, it returns the full description.
+    // Returns a shortened description for displaying on the triage board.
+    public String getDescriptionPreview(int maxLength) {
+        // Maximum preview length cannot be negative.
+        if (maxLength < 0) {
+            throw new IllegalArgumentException("Maximum length cannot be negative");
+        }
+
+        // If description is already within the limit, return it as it is.
+        if (description.length() <= maxLength) {
+            return description;
+        }
+
+        // substring(0, maxLength) extracts characters from index 0
+        // up to maxLength (excluding maxLength).
+        // We append "..." to indicate that the description has been shortened.
+        return description.substring(0, Math.min(maxLength, description.length())) + "...";
+    }
+
     public Priority getPriority(){
         return priority;
     }
