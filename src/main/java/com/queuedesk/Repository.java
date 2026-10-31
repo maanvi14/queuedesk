@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +38,9 @@ public class Repository<T extends Ticket> {//bounded type parameter , it restric
                 return ticket; //If a match is found, returns the ticket.
             }
         }
-        return null; //If no ticket with the given ID is found, returns null.
+        //return null; //If no ticket with the given ID is found, returns null.
+        //Build T5 Req2: Throw TicketNotFoundException if the ticket with the given ID is not found.So, throw a custom unchecked exception instead of returning null.
+        throw new TicketNotFoundException("Ticket with ID" + id + "was not found.");
     }
 
     //Req4: groupByAssignee() method to group tickets by their assignee.

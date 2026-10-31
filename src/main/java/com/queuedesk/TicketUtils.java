@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 import java.util.List;
 //Build-T4 Req6: Utility class containing generic methods for working with tickets.
 public class TicketUtils {

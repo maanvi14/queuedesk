@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 public class T3Demo{
     public static void main(String[] args) {

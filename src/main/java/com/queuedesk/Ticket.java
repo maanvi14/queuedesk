@@ -119,7 +119,7 @@ public String toString() {
 This produces:
 #1 [HIGH/OPEN] Login issue (Asha)
 */
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

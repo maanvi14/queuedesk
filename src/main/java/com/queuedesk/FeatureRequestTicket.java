@@ -1,6 +1,6 @@
 //Build:T3 - Req3: A ticket for requesting a new feature.
 
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 import java.util.ArrayList;
 import java.util.Collections;

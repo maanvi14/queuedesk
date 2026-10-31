@@ -1,0 +1,6 @@
+BUG|Login Error|Error 500 on submit|Rahul|HIGH|CRITICAL|Submit login form
+FEATURE|Dark Mode|Add dark mode to the application|Priya|MEDIUM|25|Improve user experience
+ACCESS|Database Access|Need access to production database|Aman|CRITICAL|Production DB|Read Only
+BUG|Payment Failure|Payment is not processing|Neha|HIGH|HIGH|Try making payment using UPI
+FEATURE|Export Reports|Allow users to export reports|Karan|LOW|12|Improve reporting functionality
+ACCESS|Admin Panel|Request admin panel access|Riya|MEDIUM|Admin Panel|Full Access

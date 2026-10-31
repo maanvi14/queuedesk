@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 import java.util.List;
 /*Imagine QueueDesk has three tickets:

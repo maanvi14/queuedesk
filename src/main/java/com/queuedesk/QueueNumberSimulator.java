@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 import java.util.Scanner;
 public class QueueNumberSimulator {
     public static void main(String[] args){

@@ -1,5 +1,5 @@
 //An interface defines what a class must be able to do, and not how it does it.In this case, the Escalatable interface defines the behavior of tickets that can be escalated. Any class that implements this interface must provide implementations for the methods defined in the interface.
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 // T3 Req5: Defines the behavior of tickets that can be escalated.
 public interface Escalatable {

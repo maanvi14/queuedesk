@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 
 public enum Priority {
     LOW, MEDIUM, HIGH, CRITICAL

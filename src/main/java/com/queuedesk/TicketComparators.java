@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+package com.queuedesk;
 /*One sorting rule cannot conveniently handle every use case. That's why we have created TicketComparators.java.
 ticket1.compareTo(ticket2) --> Defines the default order: priority descending, then creation time ascending.
 */

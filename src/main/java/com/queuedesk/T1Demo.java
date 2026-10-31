@@ -1,4 +1,4 @@
-package com.groww.intern.queuedesk;
+/*package com.queuedesk;
 
 public class T1Demo {
     public static void main(String[] args){
@@ -27,4 +27,4 @@ public class T1Demo {
         System.out.println("Total tickets created:" + Ticket.totalCreated());
 
     }
-}
+}*/
