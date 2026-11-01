@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 //Build-T4 Req4: Repository class to store tickets and provide methods.
 public class Repository<T extends Ticket> {//bounded type parameter , it restricts T so that this repository can only be used for the Ticket class or any subclass of Ticket class.
@@ -59,6 +60,18 @@ public class Repository<T extends Ticket> {//bounded type parameter , it restric
             groupedTickets.get(assignee).add(ticket); //Adds the current ticket to the list of tickets for that assignee.
         }
         return groupedTickets; //Returns the map of grouped tickets.
+    }
+    
+    //Build-T6 - Req-6:Find a ticket by ID and return Optional instead of throwing an exception.
+
+    public Optional<T> findByIdSafe(int id) {
+        // 1. Convert the existing ticket list into a Stream.
+       // 2. filter() keeps only the ticket whose ID matches the given ID.
+       // 3. findFirst() returns the first matching ticket as an Optional.
+      // 4. If no ticket matches, it returns Optional.empty().
+       return tickets.stream()
+            .filter(ticket -> ticket.getId() == id)
+            .findFirst();
     }
 
 }
