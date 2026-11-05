@@ -4,6 +4,9 @@ package com.queuedesk;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // votes = how many users want this feature.
 // businessJustification = why implementing it is valuable.
 public class FeatureRequestTicket extends Ticket {
@@ -13,7 +16,14 @@ public class FeatureRequestTicket extends Ticket {
     private final String businessJustification;
 
     // Constructor: initializes common and feature-specific fields.
-    public FeatureRequestTicket(String title, String description, String requester, Priority priority, int votes, String businessJustification) {
+    // @JsonCreator tells Jackson to use this constructor when loading JSON.
+    @JsonCreator
+    public FeatureRequestTicket( @JsonProperty("title") String title, 
+                                 @JsonProperty("description") String description, 
+                                 @JsonProperty("requester") String requester, 
+                                 @JsonProperty("priority") Priority priority, 
+                                 @JsonProperty("votes") int votes, 
+                                 @JsonProperty("businessJustification") String businessJustification) {
 
         // Initialize the common Ticket fields.
         super(title, description, requester, priority);

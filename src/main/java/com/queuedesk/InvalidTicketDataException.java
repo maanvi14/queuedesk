@@ -12,7 +12,18 @@ Invalid file data
  * Therefore, the caller must either handle it using try-catch block or declare it using the throws keyword.
  */
 public class InvalidTicketDataException extends Exception {
-    public InvalidTicketDataException(String message){ //a constructor that accepts an error message as input ie String message.
-        super(message); //calls the parent exception class constructor and passes the error message to it. This allows us to retrieve the message later using getMessage().
+
+    // Constructor 1:
+    // Accepts only an error message.
+    // This constructor is already used by our earlier T5 code.
+    public InvalidTicketDataException(String message) {
+        super(message);
+    }
+
+    // Constructor 2:
+    // Accepts an error message and the original exception.
+    // Required by build - T7 when wrapping Jackson or file-related errors.
+    public InvalidTicketDataException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

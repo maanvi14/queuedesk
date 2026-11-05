@@ -2,6 +2,9 @@ package com.queuedesk;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // T3 Req4: A ticket for requesting access to a system.
 public class AccessRequestTicket extends Ticket implements Escalatable{
 
@@ -16,7 +19,14 @@ public class AccessRequestTicket extends Ticket implements Escalatable{
     private int escalationLevel = 0;
 
     // Constructor initializes common and access-specific fields.
-    public AccessRequestTicket(String title, String description, String requester, Priority priority, String systemName, String accessLevel) {
+    // @JsonCreator tells Jackson to use this constructor when loading JSON.
+    @JsonCreator
+    public AccessRequestTicket( @JsonProperty("title") String title, 
+                                @JsonProperty("description") String description, 
+                                @JsonProperty("requester") String requester, 
+                                @JsonProperty("priority") Priority priority, 
+                                @JsonProperty("systemName") String systemName, 
+                                @JsonProperty("accessLevel") String accessLevel) {
 
         // Initialize common Ticket fields.
         super(title, description, requester, priority);

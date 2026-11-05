@@ -1,7 +1,9 @@
 package com.queuedesk;
 
 import java.util.Objects;
-
+//build-t7
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 //Build-T3 Req2: BugTicket Subclass; extends Ticet means BugTicket inherits all the fields and methods of Ticket, Also added it's own severity and stepsToReproduce fields. The constructor initializes all the fields, including those inherited from Ticket. The estimateEffortHours() method is implemented to provide a specific effort estimation for bug tickets based on their severity.
 public class BugTicket extends Ticket implements Escalatable{
     //bug specific fields
@@ -15,7 +17,13 @@ public class BugTicket extends Ticket implements Escalatable{
     private int escalationLevel = 0;
 
     // Constructor: initializes both common Ticket data and bug-specific data.
-    public BugTicket(String title, String description, String requester, Priority priority, Severity severity, String stepsToReproduce){
+    @JsonCreator
+    public BugTicket( @JsonProperty("title") String title, 
+                      @JsonProperty("description") String description, 
+                      @JsonProperty("requester") String requester, 
+                      @JsonProperty("priority") Priority priority, 
+                      @JsonProperty("severity") Severity severity, 
+                      @JsonProperty("stepsToReproduce") String stepsToReproduce){
 
         //calls the parent class constructor, must be first statement in this constructor.
         super(title, description, requester, priority);

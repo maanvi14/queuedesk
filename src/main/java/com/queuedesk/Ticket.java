@@ -129,8 +129,40 @@ import java.util.Set; //Set stores unique elements.
 import java.util.HashSet; //HashSet is a collection that implements the Set interface.So, one implementation of Set.
 import java.util.Collections; //provides a read-only view of a collection. Collections.unmodifiableSet() returns an unmodifiable view of the specified set. Any attempt to modify the set through this view will result in an UnsupportedOperationException.
 
+// Import Jackson annotation used to identify the actual subclass
+// when converting JSON back into Java objects.
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+// Import Jackson annotation used to map JSON type names
+// to their corresponding Java subclasses.Build-T7
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+
 //Build- T3 Req1.0: Ticket class is abstract because we don't want to create a generic ticket, we want to create specific types of tickets like BugTicket, FeatureRequestTicket, etc. An abstract class cannot be instantiated directly. It serves as a blueprint for other classes.
-public abstract class Ticket implements Comparable<Ticket>{ //Build-T4 Req 2: Comparable<Ticket> means the ticket class defines how two tickets should be compared for natural ordering.
+// Tells Jackson how to identify the actual Ticket subclass
+// when serializing and deserializing ticket objects;Build-T7
+@JsonTypeInfo(
+        // Identify subclasses using names instead of Java class names.
+        use = JsonTypeInfo.Id.NAME,
+
+        // Store the type information as a property in the JSON.
+        include = JsonTypeInfo.As.PROPERTY,
+
+        // The JSON property containing the subclass name will be "type".
+        property = "type"
+)
+
+// Defines the mapping between JSON type names and Java subclasses.Build-T7
+@JsonSubTypes({
+        // JSON "type": "bug" corresponds to BugTicket.
+        @JsonSubTypes.Type(value = BugTicket.class, name = "bug"),
+
+        // JSON "type": "feature" corresponds to FeatureRequestTicket.
+        @JsonSubTypes.Type(value = FeatureRequestTicket.class, name = "feature"),
+
+        // JSON "type": "access" corresponds to AccessRequestTicket.
+        @JsonSubTypes.Type(value = AccessRequestTicket.class, name = "access")
+})
+public abstract class Ticket implements Comparable<Ticket> { //Build-T4 Req 2: Comparable<Ticket> means the ticket class defines how two tickets should be compared for natural ordering.
     private static int nextId = 1; //shared by all tickets 
 
     private final int id;
@@ -177,6 +209,10 @@ public abstract class Ticket implements Comparable<Ticket>{ //Build-T4 Req 2: Co
     }
     public String getTitle(){
         return title;
+    }
+    // Returns the person who originally requested the ticket.
+    public String getRequester() {
+        return requester;
     }
     public String getDescription(){
         return description;
@@ -328,4 +364,5 @@ public abstract class Ticket implements Comparable<Ticket>{ //Build-T4 Req 2: Co
         //if priorities are equal, compare cration times ie createdAt in ascending order (older tickets first).
         return this.createdAt.compareTo(other.createdAt);
     }
+    
 }
