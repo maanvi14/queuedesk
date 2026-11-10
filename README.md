@@ -4,8 +4,7 @@
 [![Build](https://img.shields.io/badge/Build-Maven-blue.svg)](https://maven.apache.org/)
 [![Tests](https://img.shields.io/badge/JUnit-5-brightgreen.svg)](https://junit.org/junit5/)
 [![Jackson](https://img.shields.io/badge/Jackson-2.18-yellow.svg)](https://github.com/FasterXML/jackson)
-
-> **Pre-Internship Learning Journey (Month 1 Build) — *Grow before you Groww***  
+  
 > A core Java backend project modeling an enterprise IT ticketing, prioritization, and triage engine. Designed through **7 progressive builds (T1–T7)** where increasing requirements drove systematic class refactoring, object-oriented design, generic data structures, stream-based analytics, and polymorphic JSON persistence.
 
 ---
