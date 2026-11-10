@@ -33,8 +33,6 @@
   - [Build & Run Tests](#build--run-tests)
   - [Running Individual Demos](#running-individual-demos)
 - [Unit Testing Suite](#-unit-testing-suite)
-- [Roadmap to Month 2](#-roadmap-to-month-2)
-
 ---
 
 ## 🎯 Project Overview
