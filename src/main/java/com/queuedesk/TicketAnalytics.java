@@ -57,6 +57,7 @@ public class TicketAnalytics {
         return tickets.stream()
 
         //2.mapToDouble - Convert each ticket to its estimated effort in hours.
+        //what's different between map() and mapToDouble()? map() is a general-purpose mapping function that can transform elements of a stream into any type, while mapToDouble() is specifically designed for mapping elements to double values, which is useful for numerical calculations like averaging.
         .mapToDouble(Ticket::estimateEffortHours)
         //3. Calculate the average of the estimated effort hours.
         .average()
@@ -69,7 +70,7 @@ public class TicketAnalytics {
         //1.STREAM CREATION: convert the ticket list into streams ie. List<Ticket> -> Stream<Ticket>
         return tickets.stream()
 
-        //2.mapToDouble - Convert each ticket to its estimated effort in hours.
+        //2.map - Transform each ticket into its estimated effort in hours.
         .map(Ticket::estimateEffortHours)
         //3. Use reduce to sum up all the estimated effort hours. double::sum is a method reference that takes two double values and returns their sum.
         .reduce(0.0, Double::sum, Double::sum);
